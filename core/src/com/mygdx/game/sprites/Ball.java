@@ -3,6 +3,7 @@ package com.mygdx.game.sprites;
 import com.badlogic.gdx.graphics.Texture;
 
 import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
 import com.mygdx.game.Striker;
 import com.mygdx.game.screens.PlayScreen;
@@ -16,6 +17,10 @@ public class Ball extends Sprite {
     private World world;
     private Body b2Body;
     private Fixture fixture;
+    private boolean rising;
+    private float strength;
+    private static final float MAX_STRENGHT = 50;
+    private static final float MIN_STRENGHT = 0;
 
 
     public Ball(PlayScreen screen) {
@@ -27,7 +32,8 @@ public class Ball extends Sprite {
         this.world = screen.getWorld();
 
         setSize(BALL_RADIUS*2 / Striker.PPM, BALL_RADIUS*2 / Striker.PPM);
-
+        rising = true;
+        strength = 0;
         defineBall();
     }
 
@@ -58,4 +64,10 @@ public class Ball extends Sprite {
         fixture = b2Body.createFixture(fdef);
         fixture.setUserData(this);
     }
+
+    public float setStrength() {
+
+        return (rising) ? (strength++) : (strength--);
+    }
+
 }
