@@ -11,7 +11,7 @@ import com.mygdx.game.screens.PlayScreen;
  * Created by User on 07/07/2016.
  */
 public class Ball extends Sprite {
-    private static final int BALL_RADIUS = 40;
+    private static final int BALL_RADIUS = 30;
     private PlayScreen screen;
     private World world;
     private Body b2Body;
