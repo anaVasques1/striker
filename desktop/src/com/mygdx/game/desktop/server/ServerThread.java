@@ -9,7 +9,7 @@ import java.net.Socket;
 /**
  * Created by codecadet on 07/07/16.
  */
-public class ServerThread implements Runnable{
+public class ServerThread{
 
     private Server server;
     private Socket socket;
@@ -20,27 +20,29 @@ public class ServerThread implements Runnable{
     public ServerThread(Socket socket, Server server) {
         this.socket = socket;
         this.server = server;
-    }
-
-
-    @Override
-    public void run() {
 
         try {
             in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
             out = new PrintWriter(socket.getOutputStream());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void getMovement() {
+
+
+        try {
 
             String line = "";
-            while(true) {
-
                 line = in.readLine();
                 if(line != null) {
-
-                    System.out.println(line);
+                    //System.out.println(line);
+                    server.sendAll(line);
                     //processLine(line);
                     //processar line
                 }
-            }
+
 
 
         } catch (IOException e) {
@@ -59,7 +61,8 @@ public class ServerThread implements Runnable{
 
     public void sendMessage(String message) {
 
-        out.write(message + "\n");
-        out.flush();
+        System.out.println(message);
+//        out.write(message + "\n");
+//        out.flush();
     }
 }

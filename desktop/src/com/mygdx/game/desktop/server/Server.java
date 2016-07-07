@@ -15,6 +15,7 @@ public class Server {
         private final int MAX_PLAYERS = 2;
         private HashMap<Integer, ServerThread> playersList;
         private ServerSocket serverSocket = null;
+    private Integer currentKey = 1;
 
         public Server() {
             portNumber = 8080;
@@ -29,7 +30,7 @@ public class Server {
         }
 
     public void init() {
-        ExecutorService pool = Executors.newFixedThreadPool(MAX_PLAYERS);
+        //ExecutorService pool = Executors.newFixedThreadPool(MAX_PLAYERS);
 
         while (playersList.size() < MAX_PLAYERS) {
             System.out.println(playersList.size());
@@ -37,10 +38,9 @@ public class Server {
             try {
                 clientSocket = serverSocket.accept();
                 ServerThread playerThread = new ServerThread(clientSocket, this);
-                Thread t = new Thread(playerThread);
-                pool.submit(t);
+               // Thread t = new Thread(playerThread);
+               // pool.submit(t);
                 playersList.put(playersList.size() + 1, playerThread);
-
 
             } catch (IOException e) {
                 e.printStackTrace();
@@ -52,6 +52,8 @@ public class Server {
     public void start() {
         //TODO send start message to players
         while (true) {
+            ServerThread player = playersList.get(currentKey);
+            player.getMovement();
 
         }
     }
@@ -59,7 +61,14 @@ public class Server {
 
     public void sendAll(String message) {
         for (Integer key : playersList.keySet()) {
-            playersList.get(key).sendMessage(message);
+            playersList.get(key).sendMessage(message + "the player is number " + currentKey);
+        }
+        if(currentKey == playersList.size()){
+            System.out.println("changed to player 1");
+            currentKey = 1;
+        }else {
+            System.out.println("changed to player 2");
+            currentKey++;
         }
     }
 
