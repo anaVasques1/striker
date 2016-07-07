@@ -33,9 +33,11 @@ public class ServerThread implements Runnable{
             String line = "";
             while(true) {
 
+                line = in.readLine();
                 if(line != null) {
-                    line = in.readLine();
 
+                    System.out.println(line);
+                    //processLine(line);
                     //processar line
                 }
             }

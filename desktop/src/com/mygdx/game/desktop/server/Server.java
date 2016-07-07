@@ -11,47 +11,58 @@ import java.util.concurrent.Executors;
  * Created by codecadet on 07/07/16.
  */
 public class Server {
-    private int portNumber;
-    private HashMap<Integer, ServerThread> playersList;
-    private ServerSocket serverSocket = null;
+        private int portNumber;
+        private final int MAX_PLAYERS = 2;
+        private HashMap<Integer, ServerThread> playersList;
+        private ServerSocket serverSocket = null;
 
-    public Server(){
-        portNumber = 8080;
-        try {
-            serverSocket = new ServerSocket(portNumber);
+        public Server() {
+            portNumber = 8080;
+            playersList = new HashMap<Integer, ServerThread>();
+            try {
+                serverSocket = new ServerSocket(portNumber);
 
-        } catch (IOException e) {
-            System.out.println("Could not open serverSocket");
+            } catch (IOException e) {
+                System.out.println("Could not open serverSocket");
+            }
+
         }
 
-    }
+    public void init() {
+        ExecutorService pool = Executors.newFixedThreadPool(MAX_PLAYERS);
 
-    public void init(){
-        ExecutorService pool = Executors.newFixedThreadPool(2);
-        while (true) {
+        while (playersList.size() < MAX_PLAYERS) {
+            System.out.println(playersList.size());
             Socket clientSocket = null;
             try {
                 clientSocket = serverSocket.accept();
                 ServerThread playerThread = new ServerThread(clientSocket, this);
                 Thread t = new Thread(playerThread);
                 pool.submit(t);
-                playersList.put(playersList.size()+1,playerThread);
-                
+                playersList.put(playersList.size() + 1, playerThread);
+
 
             } catch (IOException e) {
                 e.printStackTrace();
             }
+        }
+        start();
+    }
+
+    public void start() {
+        //TODO send start message to players
+        while (true) {
 
         }
-
     }
 
 
-
-    public void sendAll(){
-
+    public void sendAll(String message) {
+        for (Integer key : playersList.keySet()) {
+            playersList.get(key).sendMessage(message);
+        }
     }
-
-
 
 }
+
+
