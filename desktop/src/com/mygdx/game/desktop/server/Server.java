@@ -15,7 +15,6 @@ public class Server {
         private final int MAX_PLAYERS = 2;
         private HashMap<Integer, ServerThread> playersList;
         private ServerSocket serverSocket = null;
-        private Integer currentKey = 1;
 
         public Server() {
             portNumber = 8080;
@@ -33,12 +32,13 @@ public class Server {
         ExecutorService pool = Executors.newFixedThreadPool(MAX_PLAYERS);
 
         while (playersList.size() < MAX_PLAYERS) {
+            System.out.println(playersList.size());
             Socket clientSocket = null;
             try {
                 clientSocket = serverSocket.accept();
                 ServerThread playerThread = new ServerThread(clientSocket, this);
-
-                System.out.println("list size is " + playersList.size());
+                Thread t = new Thread(playerThread);
+                pool.submit(t);
                 playersList.put(playersList.size() + 1, playerThread);
 
 
@@ -52,25 +52,14 @@ public class Server {
     public void start() {
         //TODO send start message to players
         while (true) {
-            playersList.get(currentKey).run();
 
         }
     }
 
-    public ServerThread getTurn(){
-        return playersList.get(currentKey);
-    }
 
     public void sendAll(String message) {
         for (Integer key : playersList.keySet()) {
             playersList.get(key).sendMessage(message);
-        }
-
-
-        if(currentKey == playersList.size()){
-            currentKey = 1;
-        }else{
-            currentKey++;
         }
     }
 

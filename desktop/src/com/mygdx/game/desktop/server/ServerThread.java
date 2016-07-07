@@ -26,25 +26,19 @@ public class ServerThread implements Runnable{
     @Override
     public void run() {
 
-
         try {
             in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
             out = new PrintWriter(socket.getOutputStream());
 
             String line = "";
+            while(true) {
 
+                line = in.readLine();
+                if(line != null) {
 
-                while (true) {
-                    if (server.getTurn().equals(this)) {
-                        System.out.println("teste A");
-                        line = in.readLine();
-                        System.out.println("teste B");
-                        if (line != null) {
-                            server.sendAll(line);
-                            //processLine(line);
-                            //processar line
-                        }
-
+                    System.out.println(line);
+                    //processLine(line);
+                    //processar line
                 }
             }
 
@@ -53,6 +47,7 @@ public class ServerThread implements Runnable{
             e.printStackTrace();
         }
     }
+
 
 
     private void processLine(String line) {
@@ -64,8 +59,7 @@ public class ServerThread implements Runnable{
 
     public void sendMessage(String message) {
 
-        System.out.println(message);
-//        out.write(message + "\n");
-//        out.flush();
+        out.write(message + "\n");
+        out.flush();
     }
 }
