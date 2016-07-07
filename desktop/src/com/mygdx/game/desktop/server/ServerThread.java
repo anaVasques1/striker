@@ -31,9 +31,7 @@ public class ServerThread{
 
     public void getMovement() {
 
-
         try {
-
             String line = "";
                 line = in.readLine();
                 if(line != null) {
@@ -43,13 +41,29 @@ public class ServerThread{
                     //processar line
                 }
 
-
-
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
+    public void dischargeInvalidMessage(){
+        String line = " ";
+        while(line != null) {
+            try {
+                if (in.ready()) {
+
+                    in.readLine();
+
+                }else {
+
+                    line = null;
+                }
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
 
 
     private void processLine(String line) {

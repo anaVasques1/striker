@@ -54,15 +54,10 @@ public class Server {
         while (true) {
             ServerThread player = playersList.get(currentKey);
             player.getMovement();
-
         }
     }
 
-
-    public void sendAll(String message) {
-        for (Integer key : playersList.keySet()) {
-            playersList.get(key).sendMessage(message + "the player is number " + currentKey);
-        }
+    public void updateCurrentKey(){
         if(currentKey == playersList.size()){
             System.out.println("changed to player 1");
             currentKey = 1;
@@ -70,6 +65,16 @@ public class Server {
             System.out.println("changed to player 2");
             currentKey++;
         }
+        playersList.get(currentKey).dischargeInvalidMessage();
+    }
+
+
+    public void sendAll(String message) {
+        for (Integer key : playersList.keySet()) {
+            playersList.get(key).sendMessage(message + "the player is number " + currentKey);
+        }
+        updateCurrentKey();
+
     }
 
 }
