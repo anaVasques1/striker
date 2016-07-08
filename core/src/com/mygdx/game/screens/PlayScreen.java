@@ -58,8 +58,6 @@ public class PlayScreen implements Screen {
     private Pin[] pins = new Pin[10];
     private Music music;
     private int score;
-    //private Array<Item> items;
-    //private LinkedBlockingQueue<ItemDef> itemsToSpawn;
 
     //play variables
     private float dir;
@@ -118,27 +116,7 @@ public class PlayScreen implements Screen {
 
         world.setContactListener(new WorldContactListener(this));
 
-        /*music = game.getManager().get("audio/music/mario_music.ogg", Music.class);
-        music.setLooping(true);
-        music.setVolume(0.3f);
-        //music.play();*/
-
-        // items = new Array<Item>();
-        //itemsToSpawn = new LinkedBlockingQueue<ItemDef>();
     }
-
-    /*public void spawnItem(ItemDef idef){
-        itemsToSpawn.add(idef);
-    }*/
-
-    /* public void handleSpawningItems(){
-        if(!itemsToSpawn.isEmpty()){
-            ItemDef idef = itemsToSpawn.poll();
-            if(idef.type == Mushroom.class){
-                items.add(new Mushroom(this, idef.position.x, idef.position.y));
-            }
-        }
-    }*/
 
     @Override
     public void show() {}
@@ -182,17 +160,7 @@ public class PlayScreen implements Screen {
                 ball.setCurrentState(Ball.State.DIRECTING);
             }
         }
-        /*//control our player using immediate impulses
-        if(player.currentState != Mario.State.DEAD) {
-            if (Gdx.input.isKeyJustPressed(Input.Keys.UP))
-                player.jump();
-            if (Gdx.input.isKeyPressed(Input.Keys.RIGHT) && player.b2body.getLinearVelocity().x <= 2)
-                player.b2body.applyLinearImpulse(new Vector2(0.1f, 0), player.b2body.getWorldCenter(), true);
-            if (Gdx.input.isKeyPressed(Input.Keys.LEFT) && player.b2body.getLinearVelocity().x >= -2)
-                player.b2body.applyLinearImpulse(new Vector2(-0.1f, 0), player.b2body.getWorldCenter(), true);
-            if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE))
-                player.fire();
-        }*/
+
     }
 
     public void result(float dir, float str, int score){
@@ -211,30 +179,6 @@ public class PlayScreen implements Screen {
         for(int i = 0; i < 10; i++){
             pins[i].update(dt);
         }
-        /*//handle user input first
-        handleInput(dt);
-        handleSpawningItems();
-
-        //takes 1 step in the physics simulation(60 times per second)
-        world.step(1 / 60f, 6, 2);
-
-        player.update(dt);
-        for(Enemy enemy : creator.getEnemies()) {
-            enemy.update(dt);
-            if(enemy.getX() < player.getX() + 224 / MarioBros.PPM) {
-                enemy.b2body.setActive(true);
-            }
-        }
-
-        for(Item item : items)
-            item.update(dt);
-
-        hud.update(dt);
-
-        //attach our gameCam to our players.x coordinate
-        if(player.currentState != Mario.State.DEAD) {
-            gameCam.position.x = player.b2body.getPosition().x;
-        }*/
 
         //update our gameCam with correct coordinates after changes
         gameCam.update();
@@ -247,7 +191,6 @@ public class PlayScreen implements Screen {
     public void render(float delta) {
         //separate our update logic from render
         update(delta);
-
 
 
         //Clear the game screen with Black
@@ -271,18 +214,9 @@ public class PlayScreen implements Screen {
             pins[i].draw(game.getBatch());
         }
 
-        /*for (Enemy enemy : creator.getEnemies())
-            enemy.draw(game.batch);
-        for (Item item : items)
-            item.draw(game.batch);*/
         game.getBatch().end();
 
-        //Set our batch to now draw what the Hud camera sees.
-        //game.getBatch().setProjectionMatrix(hud.stage.getCamera().combined);
-        //hud.stage.draw();
-
         if(gameOver()){
-            //game.setScreen(new GameOverScreen(game));
             dispose();
         }
     }
@@ -293,9 +227,7 @@ public class PlayScreen implements Screen {
     }
 
     public boolean gameOver(){
-        /*if(player.currentState == Mario.State.DEAD && player.getStateTimer() > 3){
-            return true;
-        }*/
+
         return false;
     }
 
@@ -321,7 +253,6 @@ public class PlayScreen implements Screen {
         renderer.dispose();
         world.dispose();
         b2dr.dispose();
-        //hud.dispose();
     }
 
     public TiledMap getMap() {

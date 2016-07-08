@@ -37,8 +37,5 @@ public class B2WorldCreator {
             body.createFixture(fdef);
         }
 
-        /*for (MapObject object : map.getLayers().get(5 ).getObjects().getByType(RectangleMapObject.class)) {
-            new Block(screen, object);
-        }*/
     }
 }
