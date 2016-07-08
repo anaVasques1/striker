@@ -7,7 +7,7 @@ import com.mygdx.game.desktop.server.Server;
  */
 public class ServerLauncher {
 
-    static void main(String[] args) {
+    public static void main(String[] args) {
         Server server = new Server();
         server.init();
 

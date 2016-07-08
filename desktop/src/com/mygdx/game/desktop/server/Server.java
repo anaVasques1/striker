@@ -64,13 +64,23 @@ public class Server {
         }
         playersList.get(1).sendMessage("end");
         playersList.get(2).sendMessage("end");
+
+        scores();
+    }
+
+
+    private void scores() {
         int winner = score.checkWinner();
+        
         if(winner == 1) {
             playersList.get(1).sendMessage("winner");
             playersList.get(2).sendMessage("looser");
-        } else {
+        } else if(winner == 2){
             playersList.get(2).sendMessage("winner");
             playersList.get(1).sendMessage("looser");
+        } else {
+            playersList.get(2).sendMessage("tie");
+            playersList.get(1).sendMessage("tie");
         }
     }
 

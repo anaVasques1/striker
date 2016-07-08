@@ -16,13 +16,16 @@ public class Score {
 
     public void update(int player, int score){
         scores.put(player, scores.get(player)+score);
+        System.out.println(player + " scored "+scores.get(player));
     }
 
     public int checkWinner(){
         if(scores.get(1) > scores.get(2)) {
             return 1;
-        } else {
+        } else if(scores.get(1) < scores.get(2)){
             return 2;
+        } else {
+            return 0;
         }
     }
 

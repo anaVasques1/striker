@@ -3,6 +3,7 @@ package com.mygdx.game.screens;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.audio.Sound;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Timer;
 import com.mygdx.game.Striker;
@@ -15,6 +16,11 @@ public class WatchingScreen extends PlayScreen implements Screen {
 
     public WatchingScreen(Striker game) {
         super(game);
+        init();
+    }
+
+    private void init() {
+        setTurn(new Texture("opponentsTurn.png"));
     }
 
     public void handleInput(float dt) {

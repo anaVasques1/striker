@@ -6,6 +6,7 @@ import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTile;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
@@ -62,6 +63,8 @@ public class PlayScreen implements Screen {
     //play variables
     private float dir;
     private float str;
+    private Texture turn;
+
 
     public PlayScreen(Striker game) {
         this.game = game;
@@ -93,7 +96,7 @@ public class PlayScreen implements Screen {
         world = new World(new Vector2(0, 0), true);
 
         //allows for debug lines of our box2d world.
-        b2dr = new Box2DDebugRenderer();
+        //b2dr = new Box2DDebugRenderer();
 
         creator = new B2WorldCreator(this);
 
@@ -114,6 +117,8 @@ public class PlayScreen implements Screen {
             stop--;
         }
 
+        turn = new Texture("yourTurn.png");
+
         world.setContactListener(new WorldContactListener(this));
 
     }
@@ -126,6 +131,7 @@ public class PlayScreen implements Screen {
 
         if (Gdx.input.justTouched()) {
             if (ball.getCurrentState() == Ball.State.CHARGING) {
+                turn = null;
                 str = strHud.getStrPointer().getyOffset();
                 strHud.dispose();
                 ball.getB2Body().applyForce(new Vector2(dir * 5, str * 5), ball.getB2Body().getWorldCenter(), true);
@@ -201,7 +207,7 @@ public class PlayScreen implements Screen {
         renderer.render();
 
         //renderer our Box2DDebugLines
-        b2dr.render(world, gameCam.combined);
+        //b2dr.render(world, gameCam.combined);
 
         //draw everything in the SpriteBatch
         game.getBatch().setProjectionMatrix(gameCam.combined);
@@ -213,6 +219,7 @@ public class PlayScreen implements Screen {
         for(int i = 0; i < 10; i++){
             pins[i].draw(game.getBatch());
         }
+        if (turn != null) game.getBatch().draw(turn, 0f, 0f, 480f / Striker.PPM, 800f / Striker.PPM);
 
         game.getBatch().end();
 
@@ -252,7 +259,7 @@ public class PlayScreen implements Screen {
         map.dispose();
         renderer.dispose();
         world.dispose();
-        b2dr.dispose();
+        //b2dr.dispose();
     }
 
     public TiledMap getMap() {
@@ -284,5 +291,13 @@ public class PlayScreen implements Screen {
 
     public OrthogonalTiledMapRenderer getRenderer() {
         return renderer;
+    }
+
+    public Texture getTurn() {
+        return turn;
+    }
+
+    public void setTurn(Texture turn) {
+        this.turn = turn;
     }
 }
