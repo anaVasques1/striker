@@ -37,7 +37,8 @@ public class ServerThread{
                 if(line != null) {
                     //System.out.println(line);
 
-                    server.sendAll(processLine(line));
+                    processLine(line);
+                    server.sendAll(line);
 
                 }
 
@@ -66,19 +67,18 @@ public class ServerThread{
     }
 
 
-    private String processLine(String line) {
+    private void processLine(String line) {
 
         String[] message = line.split(":");
 
         //TODO  separar score e guardar no score
-        server.updateScore(Integer.parseInt(message[1]));
-        return message[0];
+        server.updateScore(Integer.parseInt(message[0]));
+
     }
 
     public void sendMessage(String message) {
 
-        System.out.println(message);
-//        out.write(message + "\n");
-//        out.flush();
+        out.write(message + "\n");
+        out.flush();
     }
 }

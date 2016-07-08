@@ -76,7 +76,9 @@ public class Server {
 
     public void sendAll(String message) {
         for (Integer key : playersList.keySet()) {
-            playersList.get(key).sendMessage(message + "the player is number " + currentKey);
+            if(key != currentKey) {
+                playersList.get(key).sendMessage(message);
+            }
         }
         updateCurrentKey();
 

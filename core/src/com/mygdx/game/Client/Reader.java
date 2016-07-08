@@ -76,6 +76,9 @@ public class Reader {
     private void processLine(String line) {
 
         String[] message = line.split(":");
+        String dir = message[1];
+        String str = message[2];
+
     }
 
 }
