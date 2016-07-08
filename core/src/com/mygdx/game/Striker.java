@@ -28,6 +28,7 @@ public class Striker extends Game {
 	private String nextScreen;
 	private boolean gameOver;
 	private String ip;
+	private String winner;
 
 
 	public Striker(String ip){
@@ -123,6 +124,10 @@ public class Striker extends Game {
 		this.score = score;
 	}
 
+	public void whoWon(String winner) {
+		this.winner = winner;
+	}
+
 	public int getScore() {
 		return score;
 	}
@@ -139,4 +144,7 @@ public class Striker extends Game {
 		return ip;
 	}
 
+	public String getWinner() {
+		return winner;
+	}
 }

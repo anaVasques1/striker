@@ -51,6 +51,7 @@ public class Reader implements Runnable{
 
             }
             String winner = in.readLine();
+            game.whoWon(winner);
             System.out.println(winner);
 
 

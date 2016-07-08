@@ -61,6 +61,7 @@ public class PlayScreen implements Screen {
     private float dir;
     private float str;
     private Texture turn;
+    private Texture winner;
 
 
     public PlayScreen(Striker game) {
@@ -183,11 +184,26 @@ public class PlayScreen implements Screen {
             pins[i].update(dt);
         }
 
+        if (game.isGameOver()) {
+            if (game.getWinner().equals("winner")) {
+                winner = new Texture("youWin.png");
+                turn.dispose();
+                game.getBatch().draw(winner, 0f, 0f, 480f / Striker.PPM, 800f / Striker.PPM);
+            } else if (game.getWinner().equals("loser")) {
+                winner = new Texture("youLose.png");
+                turn.dispose();
+                game.getBatch().draw(winner, 0f, 0f, 480f / Striker.PPM, 800f / Striker.PPM);
+            } else {
+                winner = new Texture("itsaTie.png");
+                turn.dispose();
+                game.getBatch().draw(winner, 0f, 0f, 480f / Striker.PPM, 800f / Striker.PPM);
+            }
+        }
+
         //update our gameCam with correct coordinates after changes
         gameCam.update();
         //tell our renderer to draw only what our camera can see in our game world.
         renderer.setView(gameCam);
-
     }
 
     @Override
@@ -217,6 +233,7 @@ public class PlayScreen implements Screen {
             pins[i].draw(game.getBatch());
         }
         if (turn != null) game.getBatch().draw(turn, 0f, 0f, 480f / Striker.PPM, 800f / Striker.PPM);
+        if (winner != null) game.getBatch().draw(winner, 0f, 0f, 480f / Striker.PPM, 800f / Striker.PPM);
 
         game.getBatch().end();
 
