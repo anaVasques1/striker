@@ -32,7 +32,6 @@ public class Server {
         }
 
     public void init() {
-        //ExecutorService pool = Executors.newFixedThreadPool(MAX_PLAYERS);
 
         while (playersList.size() < MAX_PLAYERS) {
             System.out.println(playersList.size());

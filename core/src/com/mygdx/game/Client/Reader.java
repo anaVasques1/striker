@@ -13,7 +13,7 @@ import java.net.Socket;
  */
 public class Reader {
     private final int PORT = 8080;
-    private final String SERVER_ADDRESS = "127.0.0.1";
+    private final String SERVER_ADDRESS = "192.168.1.19";
 
     private Striker game;
 
@@ -36,10 +36,13 @@ public class Reader {
 
     public void init(){
         try {
+            System.out.println("esperando msg");
             String line = in.readLine();
+            System.out.println("recebeu msg");
            if(line.equals("wait")) {
                //load watch screen
            }else{
+               System.out.println("entrou no load screen");
                game.createScreen();
             }
 
