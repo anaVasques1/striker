@@ -6,6 +6,7 @@ import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.maps.tiled.TiledMap;
+import com.badlogic.gdx.maps.tiled.TiledMapTile;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Vector2;
@@ -17,6 +18,7 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 import com.mygdx.game.Striker;
 import com.mygdx.game.scenes.DirHud;
 import com.mygdx.game.scenes.Hud;
+import com.mygdx.game.scenes.StrHud;
 import com.mygdx.game.sprites.Ball;
 import com.mygdx.game.tools.B2WorldCreator;
 
@@ -32,6 +34,7 @@ public class PlayScreen implements Screen {
     private OrthographicCamera gameCam;
     private Viewport gamePort;
     private DirHud dirHud;
+    private StrHud strHud;
     private Hud hud;
 
     //Tiled map variables
@@ -50,6 +53,9 @@ public class PlayScreen implements Screen {
     //private Array<Item> items;
     //private LinkedBlockingQueue<ItemDef> itemsToSpawn;
 
+    //play variables
+    private float dir;
+    private float str;
 
     public PlayScreen(Striker game) {
         this.game = game;
@@ -112,13 +118,29 @@ public class PlayScreen implements Screen {
     public void show() {}
 
     public void handleInput(float dt){
-        if (ball.getCurrentState() == Ball.State.STOPPED) {
-            if (Gdx.input.justTouched()) {
-                ball.setCurrentState(Ball.State.DIRECTING);
+
+        if (Gdx.input.justTouched()) {
+            if (ball.getCurrentState() == Ball.State.CHARGING) {
+                str = strHud.getStrPointer().getyOffset();
+                strHud.dispose();
+                ball.getB2Body().applyForce(new Vector2(dir * 5, str * 5), ball.getB2Body().getWorldCenter(), true);
+                ball.setCurrentState(Ball.State.LAUNCHED);
+            }
+
+            if (ball.getCurrentState() == Ball.State.DIRECTING) {
+                dir = dirHud.getDirPointer().getxOffset();
+                dirHud.dispose();
+                strHud = new StrHud(game.getBatch(), this);
+                ball.setCurrentState(Ball.State.CHARGING);
+            }
+
+            if (ball.getCurrentState() == Ball.State.STOPPED) {
                 dirHud = new DirHud(game.getBatch(), this);
-                //ball.getB2Body().applyForce(new Vector2(200f, 400f), ball.getB2Body().getWorldCenter(), true);
+                ball.setCurrentState(Ball.State.DIRECTING);
             }
         }
+
+
         /*//control our player using immediate impulses
         if(player.currentState != Mario.State.DEAD) {
             if (Gdx.input.isKeyJustPressed(Input.Keys.UP))
@@ -137,6 +159,8 @@ public class PlayScreen implements Screen {
         handleInput(dt);
         world.step(1 / 60f, 6, 2);
         ball.update(dt);
+        if (dirHud != null) dirHud.update(dt);
+        if (strHud != null) strHud.update(dt);
         /*//handle user input first
         handleInput(dt);
         handleSpawningItems();
@@ -190,7 +214,8 @@ public class PlayScreen implements Screen {
         game.getBatch().setProjectionMatrix(gameCam.combined);
         game.getBatch().begin();
 
-        if (dirHud != null) dirHud.render(delta);
+        if (dirHud != null && !dirHud.isDisposed()) dirHud.render(delta);
+        if (strHud != null && !strHud.isDisposed()) strHud.render(delta);
         ball.draw(game.getBatch());
         /*for (Enemy enemy : creator.getEnemies())
             enemy.draw(game.batch);

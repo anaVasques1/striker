@@ -9,42 +9,42 @@ import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.mygdx.game.Striker;
 import com.mygdx.game.screens.PlayScreen;
-import com.mygdx.game.sprites.hudSprites.DirPointer;
+import com.mygdx.game.sprites.hudSprites.StrPointer;
 
 /**
- * Created by User on 07/07/2016.
+ * Created by User on 08/07/2016.
  */
-public class DirHud implements Disposable {
+public class StrHud implements Disposable {
     private boolean disposed;
 
     private Stage stage;
     private Viewport viewport;
 
-    private Texture dirSlider;
-    private DirPointer dirPointer;
+    private Texture strSlider;
+    private StrPointer strPointer;
 
-    public DirHud(SpriteBatch batch, PlayScreen screen) {
+    public StrHud(SpriteBatch batch, PlayScreen screen) {
 
         viewport = new FitViewport(Striker.GAME_WIDTH, Striker.GAME_HEIGHT, new OrthographicCamera());
         stage = new Stage(viewport, batch);
 
-        dirSlider = new Texture("dirSlider.png");
-        dirPointer = new DirPointer(screen);
+        strSlider = new Texture("strSlider.png");
+        strPointer = new StrPointer(screen);
     }
 
     public void render(float dt) {
         stage.getBatch().draw(
-                dirSlider,
-                ((Striker.GAME_WIDTH / 2) - 112f) / Striker.PPM,
+                strSlider,
+                ((Striker.GAME_WIDTH / 2) - 32f) / Striker.PPM,
                 200f / Striker.PPM,
-                224f / Striker.PPM,
-                64f / Striker.PPM);
-        dirPointer.draw(stage.getBatch());
+                64f / Striker.PPM,
+                224f / Striker.PPM);
+        strPointer.draw(stage.getBatch());
     }
 
     public void update(float dt) {
-        dirPointer.variableDirection();
-        dirPointer.update(dt);
+        strPointer.variableStrength();
+        strPointer.update(dt);
     }
 
     public Stage getStage() {
@@ -53,14 +53,14 @@ public class DirHud implements Disposable {
 
     @Override
     public void dispose() {
-        dirSlider.dispose();
-        dirPointer.dispose();
+        strSlider.dispose();
+        strPointer.dispose();
         stage.dispose();
         disposed = true;
     }
 
-    public DirPointer getDirPointer() {
-        return dirPointer;
+    public StrPointer getStrPointer() {
+        return strPointer;
     }
 
     public boolean isDisposed() {
