@@ -15,6 +15,7 @@ public class Server {
         private final int MAX_PLAYERS = 2;
         private HashMap<Integer, ServerThread> playersList;
         private ServerSocket serverSocket = null;
+        private final int TURNS = 10;
     private Score score;
 
     private Integer currentKey = 1;
@@ -55,11 +56,21 @@ public class Server {
     public void start() {
         score = new Score(MAX_PLAYERS);
         //TODO send start message to players
-        while (true) {
+        int moves = 0;
+        while (moves <= TURNS * MAX_PLAYERS) {
             ServerThread player = playersList.get(currentKey);
             player.getMovement();
+            moves++;
         }
-        //score.checkWinner();
+        sendAll("::");
+        int winner = score.checkWinner();
+        if(winner == 1) {
+            playersList.get(1).sendMessage("winner");
+            playersList.get(2).sendMessage("looser");
+        } else {
+            playersList.get(2).sendMessage("winner");
+            playersList.get(1).sendMessage("looser");
+        }
     }
 
     public void updateCurrentKey(){

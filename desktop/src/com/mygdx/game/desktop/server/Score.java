@@ -17,8 +17,12 @@ public class Score {
         scores.put(player, scores.get(player)+score);
     }
 
-    public void checkWinner(){
-
+    public int checkWinner(){
+        if(scores.get(1) > scores.get(2)) {
+            return 1;
+        } else {
+            return 2;
+        }
     }
 
 }
