@@ -3,7 +3,6 @@ package com.mygdx.game.sprites;
 import com.badlogic.gdx.graphics.Texture;
 
 import com.badlogic.gdx.graphics.g2d.Sprite;
-import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
 import com.mygdx.game.Striker;
 import com.mygdx.game.screens.PlayScreen;
@@ -12,15 +11,14 @@ import com.mygdx.game.screens.PlayScreen;
  * Created by User on 07/07/2016.
  */
 public class Ball extends Sprite {
+    public enum State { STOPPED, CHARGING, DIRECTING, LAUNCHED };
+    private State currentState;
+
     private static final int BALL_RADIUS = 30;
-    private PlayScreen screen;
+    private static final int BALL_STARTING_HEIGHT = 100;
     private World world;
     private Body b2Body;
     private Fixture fixture;
-    private boolean rising;
-    private float strength;
-    private static final float MAX_STRENGHT = 50;
-    private static final float MIN_STRENGHT = 0;
 
 
     public Ball(PlayScreen screen) {
@@ -28,18 +26,15 @@ public class Ball extends Sprite {
         super(new Texture("ball.png"));
 
         //initialize default values
-        this.screen = screen;
         this.world = screen.getWorld();
 
-        setSize(BALL_RADIUS*2 / Striker.PPM, BALL_RADIUS*2 / Striker.PPM);
-        rising = true;
-        strength = 0;
+        setSize(BALL_RADIUS*2 / Striker.PPM, BALL_RADIUS * 2 / Striker.PPM);
+        currentState = State.STOPPED;
         defineBall();
     }
 
 
     public void update(float dt) {
-
         setPosition(b2Body.getPosition().x - getWidth() / 2, b2Body.getPosition().y - getHeight() / 2);
     }
 
@@ -47,7 +42,7 @@ public class Ball extends Sprite {
     private void defineBall() {
 
         BodyDef bdef = new BodyDef();
-        bdef.position.set((Striker.GAME_WIDTH / 2) / Striker.PPM, (Striker.GAME_HEIGHT / 2) / Striker.PPM);
+        bdef.position.set((Striker.GAME_WIDTH / 2) / Striker.PPM, BALL_STARTING_HEIGHT / Striker.PPM);
         bdef.type = BodyDef.BodyType.DynamicBody;
         b2Body = world.createBody(bdef);
 
@@ -65,9 +60,16 @@ public class Ball extends Sprite {
         fixture.setUserData(this);
     }
 
-    public float setStrength() {
 
-        return (rising) ? (strength++) : (strength--);
+    public State getCurrentState() {
+        return currentState;
     }
 
+    public void setCurrentState(State currentState) {
+        this.currentState = currentState;
+    }
+
+    public Body getB2Body() {
+        return b2Body;
+    }
 }

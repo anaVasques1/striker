@@ -15,6 +15,7 @@ import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
 import com.mygdx.game.Striker;
+import com.mygdx.game.scenes.DirHud;
 import com.mygdx.game.scenes.Hud;
 import com.mygdx.game.sprites.Ball;
 import com.mygdx.game.tools.B2WorldCreator;
@@ -30,6 +31,7 @@ public class PlayScreen implements Screen {
     //basic playscreen variables
     private OrthographicCamera gameCam;
     private Viewport gamePort;
+    private DirHud dirHud;
     private Hud hud;
 
     //Tiled map variables
@@ -72,7 +74,7 @@ public class PlayScreen implements Screen {
         gameCam.position.set(gamePort.getWorldWidth() / 2, gamePort.getWorldHeight() / 2, 0);
 
         //create our Box2D world, setting no gravity in X, -10 gravity in Y, and allow bodies to sleep
-        world = new World(new Vector2(0, -10), true);
+        world = new World(new Vector2(0, 0), true);
 
         //allows for debug lines of our box2d world.
         b2dr = new Box2DDebugRenderer();
@@ -110,6 +112,13 @@ public class PlayScreen implements Screen {
     public void show() {}
 
     public void handleInput(float dt){
+        if (ball.getCurrentState() == Ball.State.STOPPED) {
+            if (Gdx.input.justTouched()) {
+                ball.setCurrentState(Ball.State.DIRECTING);
+                dirHud = new DirHud(game.getBatch(), this);
+                //ball.getB2Body().applyForce(new Vector2(200f, 400f), ball.getB2Body().getWorldCenter(), true);
+            }
+        }
         /*//control our player using immediate impulses
         if(player.currentState != Mario.State.DEAD) {
             if (Gdx.input.isKeyJustPressed(Input.Keys.UP))
@@ -165,6 +174,8 @@ public class PlayScreen implements Screen {
         //separate our update logic from render
         update(delta);
 
+
+
         //Clear the game screen with Black
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
@@ -178,6 +189,8 @@ public class PlayScreen implements Screen {
         //draw everything in the SpriteBatch
         game.getBatch().setProjectionMatrix(gameCam.combined);
         game.getBatch().begin();
+
+        if (dirHud != null) dirHud.render(delta);
         ball.draw(game.getBatch());
         /*for (Enemy enemy : creator.getEnemies())
             enemy.draw(game.batch);
