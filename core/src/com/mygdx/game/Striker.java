@@ -27,7 +27,13 @@ public class Striker extends Game {
 	private Writer writer;
 	private String nextScreen;
 	private boolean gameOver;
+	private String ip;
 
+
+	public Striker(String ip){
+		this.ip = ip;
+
+	}
 	public boolean isGameOver() {
 		return gameOver;
 	}
@@ -54,7 +60,7 @@ public class Striker extends Game {
         manager.finishLoading();
 		nextScreen = "";
 		setScreen(new WatchingScreen(this));
-		reader = new Reader(this);
+		reader = new Reader(this, ip);
 		Thread t = new Thread(reader);
 		t.start();
 	}
@@ -128,4 +134,9 @@ public class Striker extends Game {
 	public float getStr() {
 		return str;
 	}
+
+	public String getIp() {
+		return ip;
+	}
+
 }

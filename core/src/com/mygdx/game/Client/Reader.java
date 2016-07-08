@@ -14,15 +14,16 @@ import java.net.Socket;
  */
 public class Reader implements Runnable{
     private final int PORT = 8080;
-    private final String SERVER_ADDRESS = "192.168.1.19";
+    private String SERVER_ADDRESS = "";
 
     private Striker game;
 
     private Socket socket;
     private BufferedReader in;
 
-    public Reader(Striker game) {
+    public Reader(Striker game, String ip) {
         this.game = game;
+        SERVER_ADDRESS = ip;
         try {
             socket = new Socket(SERVER_ADDRESS,PORT);
             Writer writer = new Writer(socket);
@@ -51,7 +52,7 @@ public class Reader implements Runnable{
             }
             String winner = in.readLine();
             System.out.println(winner);
-            //TODO chamar metodo para mostrar vencedor
+
 
         } catch (IOException e) {
             e.printStackTrace();

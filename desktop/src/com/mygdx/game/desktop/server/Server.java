@@ -54,7 +54,6 @@ public class Server {
 
     public void start() {
         score = new Score(MAX_PLAYERS);
-        //TODO send start message to players
         int moves = 0;
         while (moves < TURNS * MAX_PLAYERS) {
             System.out.println("jodadas "+moves);
@@ -71,7 +70,7 @@ public class Server {
 
     private void scores() {
         int winner = score.checkWinner();
-        
+
         if(winner == 1) {
             playersList.get(1).sendMessage("winner");
             playersList.get(2).sendMessage("looser");

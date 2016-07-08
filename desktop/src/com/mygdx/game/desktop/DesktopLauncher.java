@@ -11,7 +11,7 @@ public class DesktopLauncher {
 		config.width = Striker.GAME_WIDTH;
 		config.height = Striker.GAME_HEIGHT;
 		config.title = "Striker!";
-		new LwjglApplication(new Striker(), config);
+		new LwjglApplication(new Striker(arg[0]), config);
 
 	}
 }
