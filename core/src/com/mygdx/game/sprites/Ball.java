@@ -53,9 +53,9 @@ public class Ball extends Sprite {
         fdef.filter.maskBits = Striker.EDGE_BIT;
 
         fdef.shape = shape;
-        fdef.restitution = 1f;
-        fdef.friction = 0f;
-        //fdef.density = 1000f;
+        fdef.restitution = 0.8f;
+        fdef.friction = 0.5f;
+        fdef.density = 10f;
         fixture = b2Body.createFixture(fdef);
         fixture.setUserData(this);
     }
