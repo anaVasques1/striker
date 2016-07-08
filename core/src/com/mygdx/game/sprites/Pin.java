@@ -54,13 +54,13 @@ public class Pin extends Sprite{
         shape.setRadius(PIN_RADIUS / Striker.PPM);
         //TODO Verificar essa categoryBits
         fdef.filter.categoryBits = Striker.PIN_BIT;
-        fdef.filter.maskBits = Striker.EDGE_BIT;
+        fdef.filter.maskBits = Striker.EDGE_BIT | Striker.BALL_BIT;
 
         fdef.shape = shape;
         //TODO verificar essas variaveis
         fdef.restitution = 1f;
-        fdef.friction = 0.2f;
-        fdef.density = 20f;
+        fdef.friction = 0.5f;
+        fdef.density = 5f;
         fixture = b2Body.createFixture(fdef);
         fixture.setUserData(this);
     }

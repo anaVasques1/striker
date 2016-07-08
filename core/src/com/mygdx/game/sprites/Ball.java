@@ -50,12 +50,12 @@ public class Ball extends Sprite {
         CircleShape shape = new CircleShape();
         shape.setRadius(BALL_RADIUS / Striker.PPM);
         fdef.filter.categoryBits = Striker.BALL_BIT;
-        fdef.filter.maskBits = Striker.EDGE_BIT;
+        fdef.filter.maskBits = Striker.EDGE_BIT | Striker.PIN_BIT;
 
         fdef.shape = shape;
         fdef.restitution = 1f;
         fdef.friction = 0f;
-        //fdef.density = 1000f;
+        fdef.density = 10f;
         fixture = b2Body.createFixture(fdef);
         fixture.setUserData(this);
     }

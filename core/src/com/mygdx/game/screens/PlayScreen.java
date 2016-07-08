@@ -94,7 +94,6 @@ public class PlayScreen implements Screen {
         for(int j = 0; j<4; j++ ) {
             for (int k = i ; k < stop; k += 2) {
                 pins[p] = new Pin(this, 16 + (k * Striker.TILE_SIZE), 768 - (int)(1.5 * j * Striker.TILE_SIZE));
-                System.out.println(pins[p]);
                 p++;
             }
             System.out.println(j);
