@@ -158,7 +158,7 @@ public class PlayScreen implements Screen {
                         }
                         System.out.println(score);
                         dispose();
-                        game.setScreen(new WatchingScreen(game));
+                        game.createWatchingScreen();
                     }
                 }, 5);
             }
@@ -324,7 +324,27 @@ public class PlayScreen implements Screen {
         return world;
     }
 
+    public Striker getGame() {
+        return game;
+    }
+
     public Hud getHud() {
         return hud;
+    }
+
+    public Ball getBall() {
+        return ball;
+    }
+
+    public Pin[] getPins() {
+        return pins;
+    }
+
+    public OrthographicCamera getGameCam() {
+        return gameCam;
+    }
+
+    public OrthogonalTiledMapRenderer getRenderer() {
+        return renderer;
     }
 }

@@ -7,6 +7,8 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.mygdx.game.Client.Reader;
 import com.mygdx.game.Client.Writer;
 import com.mygdx.game.screens.PlayScreen;
+import com.mygdx.game.screens.WatchingScreen;
+import com.sun.webkit.ThemeClient;
 
 public class Striker extends Game {
 
@@ -23,6 +25,7 @@ public class Striker extends Game {
 	private AssetManager manager;
 	private Reader reader;
 	private Writer writer;
+	private String nextScreen;
 
 	public void setWriter(Writer writer) {
 		this.writer = writer;
@@ -33,9 +36,12 @@ public class Striker extends Game {
 		batch = new SpriteBatch();
 		manager = new AssetManager();
         manager.finishLoading();
+		nextScreen = "WatchingScreen";
+		setScreen(new WatchingScreen(this));
 		reader = new Reader(this);
-		reader.init();
-
+		Thread t = new Thread(reader);
+		t.start();
+		//reader.init();
 	}
 
 	@Override
@@ -52,6 +58,12 @@ public class Striker extends Game {
 
 	public void createScreen() {
 		setScreen(new PlayScreen(this));
+		System.out.println("so this happened");
+	}
+
+	public void createWatchingScreen(){
+		setScreen(new WatchingScreen(this));
+		System.out.println("so this happened");
 	}
 
 	public SpriteBatch getBatch() {
@@ -72,5 +84,13 @@ public class Striker extends Game {
 
 	public void sendResult(String result) {
 		writer.sendMessage(result);
+	}
+
+	public void setNextScreen(String nextScreen) {
+		this.nextScreen = nextScreen;
+	}
+
+	public String getNextScreen() {
+		return nextScreen;
 	}
 }

@@ -9,25 +9,31 @@ import java.net.Socket;
 /**
  * Created by codecadet on 08/07/16.
  */
-public class Writer implements Runnable{
+public class Writer{
 
     private PrintWriter out;
     private Socket socket;
     public Writer(Socket socket) {
        this.socket = socket;
-    }
-
-
-    @Override
-    public void run() {
         try {
             out = new PrintWriter(socket.getOutputStream(), true);
-
-
         } catch (IOException e) {
             e.printStackTrace();
         }
+
     }
+
+
+
+//    public void run() {
+//        try {
+//            out = new PrintWriter(socket.getOutputStream(), true);
+//
+//
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+//    }
 
 
     public void sendMessage(String result) {

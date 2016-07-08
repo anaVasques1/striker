@@ -1,6 +1,7 @@
 package com.mygdx.game.Client;
 
 import com.mygdx.game.Striker;
+import com.mygdx.game.screens.PlayScreen;
 import com.sun.org.apache.regexp.internal.RE;
 
 import java.io.BufferedReader;
@@ -11,7 +12,7 @@ import java.net.Socket;
 /**
  * Created by codecadet on 08/07/16.
  */
-public class Reader {
+public class Reader implements Runnable{
     private final int PORT = 8080;
     private final String SERVER_ADDRESS = "192.168.1.19";
 
@@ -26,31 +27,32 @@ public class Reader {
             socket = new Socket(SERVER_ADDRESS,PORT);
             Writer writer = new Writer(socket);
             game.setWriter(writer);
-            Thread t = new Thread(writer);
-            t.start();
+//            Thread t = new Thread(writer);
+//            t.start();
             in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
-
-    public void init(){
-        try {
-            System.out.println("esperando msg");
-            String line = in.readLine();
-            System.out.println("recebeu msg");
-           if(line.equals("wait")) {
-               //load watch screen
-           }else{
-               System.out.println("entrou no load screen");
-               game.createScreen();
-            }
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        start();
-    }
+//
+//    public void init(){
+//        try {
+//            System.out.println("esperando msg");
+//            String line = in.readLine();
+//            System.out.println("recebeu msg");
+//            System.out.println(line);
+//           if(line.equals("wait")) {
+//               game.createWatchingScreen();
+//           }else{
+//               System.out.println("entrou no load screen");
+//               game.createScreen();
+//            }
+//
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+//        start();
+//    }
 
     private void start() {
         try {
@@ -84,4 +86,23 @@ public class Reader {
 
     }
 
+    @Override
+    public void run() {
+        try {
+            System.out.println("esperando msg");
+            String line = in.readLine();
+            System.out.println("recebeu msg");
+            System.out.println(line);
+            if(line.equals("wait")) {
+                game.setNextScreen("WatchingScreen");
+            }else{
+                System.out.println("entrou no load screen");
+                game.setNextScreen("PlayScreen");
+            }
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        start();
+    }
 }

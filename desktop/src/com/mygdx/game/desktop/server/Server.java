@@ -47,7 +47,8 @@ public class Server {
                 e.printStackTrace();
             }
         }
-
+        playersList.get(1).sendMessage("play");
+        playersList.get(2).sendMessage("wait");
         start();
     }
 
