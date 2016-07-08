@@ -1,8 +1,11 @@
 package com.mygdx.game;
 
 import com.badlogic.gdx.Game;
+import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.mygdx.game.Client.Reader;
+import com.mygdx.game.Client.Writer;
 import com.mygdx.game.screens.PlayScreen;
 
 public class Striker extends Game {
@@ -18,14 +21,21 @@ public class Striker extends Game {
 
     private SpriteBatch batch;
 	private AssetManager manager;
-	
+	private Reader reader;
+	private Writer writer;
+
+	public void setWriter(Writer writer) {
+		this.writer = writer;
+	}
+
 	@Override
 	public void create () {
 		batch = new SpriteBatch();
 		manager = new AssetManager();
         manager.finishLoading();
+		reader = new Reader(this);
+		reader.init();
 
-        setScreen(new PlayScreen(this));
 	}
 
 	@Override
@@ -38,6 +48,10 @@ public class Striker extends Game {
         super.dispose();
         manager.dispose();
 		batch.dispose();
+	}
+
+	public void createScreen() {
+		setScreen(new PlayScreen(this));
 	}
 
 	public SpriteBatch getBatch() {
@@ -54,5 +68,9 @@ public class Striker extends Game {
 
 	public void setManager(AssetManager manager) {
 		this.manager = manager;
+	}
+
+	public void sendResult(String result) {
+		writer.sendMessage(result);
 	}
 }

@@ -12,6 +12,7 @@ import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
+import com.badlogic.gdx.utils.FloatArray;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
@@ -22,7 +23,7 @@ import com.mygdx.game.scenes.StrHud;
 import com.mygdx.game.sprites.Ball;
 import com.mygdx.game.sprites.Pin;
 import com.mygdx.game.tools.B2WorldCreator;
-import com.sun.org.apache.xpath.internal.operations.String;
+
 
 /**
  * Created by User on 07/07/2016.
@@ -169,6 +170,12 @@ public class PlayScreen implements Screen {
             if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE))
                 player.fire();
         }*/
+    }
+
+    public void result(float dir, float str){
+        String result = Float.toString(dir) + ":" + Float.toString(str);
+        game.sendResult(result);
+
     }
 
     public void update(float dt){
