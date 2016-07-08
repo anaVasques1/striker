@@ -58,7 +58,9 @@ public class Reader implements Runnable{
         try {
 
             while(true) {
+                System.out.println("esperando a msg");
                 String line = in.readLine();
+                System.out.println("received msg from server " + line);
                 if(line != null) {
                     processLine(line);
                     //send to watch screen
@@ -84,6 +86,7 @@ public class Reader implements Runnable{
         String dir = message[1];
         String str = message[2];
 
+        game.move(Float.parseFloat(dir),Float.parseFloat(str));
     }
 
     @Override

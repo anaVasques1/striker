@@ -97,4 +97,9 @@ public class Striker extends Game {
 	public String getNextScreen() {
 		return nextScreen;
 	}
+
+	public void move(float dir, float str){
+
+
+	}
 }
