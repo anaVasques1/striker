@@ -1,36 +1,39 @@
 package com.mygdx.game.sprites;
 
 import com.badlogic.gdx.graphics.Texture;
-
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.physics.box2d.*;
 import com.mygdx.game.Striker;
 import com.mygdx.game.screens.PlayScreen;
 
 /**
- * Created by User on 07/07/2016.
+ * Created by codecadet on 08/07/16.
  */
-public class Ball extends Sprite {
-    public enum State { STOPPED, CHARGING, DIRECTING, LAUNCHED };
-    private State currentState;
+public class Pin extends Sprite{
 
-    private static final int BALL_RADIUS = 20;
-    private static final int BALL_STARTING_HEIGHT = 100;
+    public enum State { STOPPED, CHARGING, DIRECTING, LAUNCHED };
+    private Pin.State currentState;
+
+    private static final int PIN_RADIUS = 16;
+    private static int pin_starting_height;
+    private static int pin_starting_width;
     private World world;
     private Body b2Body;
     private Fixture fixture;
 
 
-    public Ball(PlayScreen screen) {
+    public Pin(PlayScreen screen,int width, int height ) {
 
-        super(new Texture("ball.png"));
+        super(new Texture("Pin.png"));
+        pin_starting_height = height;
+        pin_starting_width = width;
 
         //initialize default values
         this.world = screen.getWorld();
 
-        setSize(BALL_RADIUS*2 / Striker.PPM, BALL_RADIUS * 2 / Striker.PPM);
-        currentState = State.STOPPED;
-        defineBall();
+        setSize(PIN_RADIUS*2 / Striker.PPM, PIN_RADIUS * 2 / Striker.PPM);
+        currentState = Pin.State.STOPPED;
+        definePin();
     }
 
 
@@ -39,33 +42,35 @@ public class Ball extends Sprite {
     }
 
 
-    private void defineBall() {
+    private void definePin() {
 
         BodyDef bdef = new BodyDef();
-        bdef.position.set((Striker.GAME_WIDTH / 2) / Striker.PPM, BALL_STARTING_HEIGHT / Striker.PPM);
+        bdef.position.set(pin_starting_width / Striker.PPM, pin_starting_height / Striker.PPM);
         bdef.type = BodyDef.BodyType.DynamicBody;
         b2Body = world.createBody(bdef);
 
         FixtureDef fdef = new FixtureDef();
         CircleShape shape = new CircleShape();
-        shape.setRadius(BALL_RADIUS / Striker.PPM);
-        fdef.filter.categoryBits = Striker.BALL_BIT;
+        shape.setRadius(PIN_RADIUS / Striker.PPM);
+        //TODO Verificar essa categoryBits
+        fdef.filter.categoryBits = Striker.PIN_BIT;
         fdef.filter.maskBits = Striker.EDGE_BIT;
 
         fdef.shape = shape;
+        //TODO verificar essas variaveis
         fdef.restitution = 1f;
-        fdef.friction = 0f;
-        //fdef.density = 1000f;
+        fdef.friction = 0.2f;
+        fdef.density = 20f;
         fixture = b2Body.createFixture(fdef);
         fixture.setUserData(this);
     }
 
 
-    public State getCurrentState() {
+    public Pin.State getCurrentState() {
         return currentState;
     }
 
-    public void setCurrentState(State currentState) {
+    public void setCurrentState(Pin.State currentState) {
         this.currentState = currentState;
     }
 

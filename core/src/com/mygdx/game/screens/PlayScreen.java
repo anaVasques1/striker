@@ -18,7 +18,9 @@ import com.mygdx.game.Striker;
 import com.mygdx.game.scenes.DirHud;
 import com.mygdx.game.scenes.Hud;
 import com.mygdx.game.sprites.Ball;
+import com.mygdx.game.sprites.Pin;
 import com.mygdx.game.tools.B2WorldCreator;
+import com.sun.org.apache.xpath.internal.operations.String;
 
 /**
  * Created by User on 07/07/2016.
@@ -46,6 +48,7 @@ public class PlayScreen implements Screen {
 
     //assets
     private Ball ball;
+    private Pin[] pins = new Pin[10];
     private Music music;
     //private Array<Item> items;
     //private LinkedBlockingQueue<ItemDef> itemsToSpawn;
@@ -84,6 +87,23 @@ public class PlayScreen implements Screen {
         //create ball in our game world
         ball = new Ball(this);
 
+        //Create pin
+        int p = 0;
+        int i = 4;
+        int stop = 11;
+        for(int j = 0; j<4; j++ ) {
+            for (int k = i ; k < stop; k += 2) {
+                pins[p] = new Pin(this, 16 + (k * Striker.TILE_SIZE), 768 - (int)(1.5 * j * Striker.TILE_SIZE));
+                System.out.println(pins[p]);
+                p++;
+            }
+            System.out.println(j);
+            i++;
+            stop--;
+        }
+
+
+
         //world.setContactListener(new WorldContactListener());
 
         /*music = game.getManager().get("audio/music/mario_music.ogg", Music.class);
@@ -116,7 +136,7 @@ public class PlayScreen implements Screen {
             if (Gdx.input.justTouched()) {
                 ball.setCurrentState(Ball.State.DIRECTING);
                 dirHud = new DirHud(game.getBatch(), this);
-                //ball.getB2Body().applyForce(new Vector2(200f, 400f), ball.getB2Body().getWorldCenter(), true);
+                ball.getB2Body().applyForce(new Vector2(200f, 400f), ball.getB2Body().getWorldCenter(), true);
             }
         }
         /*//control our player using immediate impulses
@@ -137,6 +157,9 @@ public class PlayScreen implements Screen {
         handleInput(dt);
         world.step(1 / 60f, 6, 2);
         ball.update(dt);
+        for(int i = 0; i < 10; i++){
+            pins[i].update(dt);
+        }
         /*//handle user input first
         handleInput(dt);
         handleSpawningItems();
@@ -192,6 +215,10 @@ public class PlayScreen implements Screen {
 
         if (dirHud != null) dirHud.render(delta);
         ball.draw(game.getBatch());
+        for(int i = 0; i < 10; i++){
+            pins[i].draw(game.getBatch());
+        }
+
         /*for (Enemy enemy : creator.getEnemies())
             enemy.draw(game.batch);
         for (Item item : items)
