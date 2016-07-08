@@ -83,6 +83,10 @@ public class PlayScreen implements Screen {
         //Load our map and setup our map renderer
         maploader = new TmxMapLoader();
         map = maploader.load("game.tmx");
+        music = game.getManager().get("chillsong.ogg", Music.class);
+        music.setLooping(true);
+        music.setVolume(0.3f);
+        music.play();
         renderer = new OrthogonalTiledMapRenderer(map, 1  / Striker.PPM);
 
         gameCam.position.set(gamePort.getWorldWidth() / 2, gamePort.getWorldHeight() / 2, 0);
