@@ -41,11 +41,17 @@ public class Reader implements Runnable{
                 String line = in.readLine();
                 System.out.println("received msg from server " + line);
                 if(line != null) {
+                    if(endGame(line)) {
+                        break;
+                    }
                     processLine(line);
-                    //send to watch screen
                 }
 
             }
+            String winner = in.readLine();
+            System.out.println(winner);
+            //TODO chamar metodo para mostrar vencedor
+
         } catch (IOException e) {
             e.printStackTrace();
         } finally {
@@ -58,8 +64,14 @@ public class Reader implements Runnable{
         }
     }
 
+    private boolean endGame(String line) {
+        String[] message = processLine(line);
+        return message[0].equals("") &&
+                message[1].equals("") &&
+                message[2].equals("");
+    }
 
-    private void processLine(String line) {
+    private String[] processLine(String line) {
 
         String[] message = line.split(":");
         String dir = message[1];
@@ -67,6 +79,7 @@ public class Reader implements Runnable{
 
         game.setNextScreen("ShowPlay");
         game.move(Integer.parseInt(message[0]),Float.parseFloat(dir),Float.parseFloat(str));
+        return message;
     }
 
     @Override
