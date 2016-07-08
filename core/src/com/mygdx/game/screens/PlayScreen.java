@@ -159,6 +159,7 @@ public class PlayScreen implements Screen {
                             }
                         }
                         System.out.println(score);
+                        result(dir, str, score);
                         dispose();
                         game.createWatchingScreen();
                     }
@@ -190,8 +191,8 @@ public class PlayScreen implements Screen {
         }*/
     }
 
-    public void result(float dir, float str){
-        String result = Float.toString(dir) + ":" + Float.toString(str);
+    public void result(float dir, float str, int score){
+        String result = score + ":" + Float.toString(dir) + ":" + Float.toString(str);
         game.sendResult(result);
 
     }
