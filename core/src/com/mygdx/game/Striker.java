@@ -45,7 +45,7 @@ public class Striker extends Game {
         manager.load("strike.ogg", Sound.class);
 		manager.load("chillsong.ogg", Music.class);
         manager.finishLoading();
-		nextScreen = "WatchingScreen";
+		nextScreen = "";
 		setScreen(new WatchingScreen(this));
 		reader = new Reader(this);
 		Thread t = new Thread(reader);

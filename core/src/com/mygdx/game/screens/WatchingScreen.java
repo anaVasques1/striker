@@ -19,7 +19,7 @@ public class WatchingScreen extends PlayScreen implements Screen {
 
     public void handleInput(float dt) {
         if (getGame().getNextScreen().equals("ShowPlay")) {
-            getGame().setNextScreen("WatchingScreen");
+            getGame().setNextScreen("CreateScreen");
             getBall().getB2Body().applyForce(new Vector2(getGame().getDir() * 5, getGame().getStr() * 5), getBall().getB2Body().getWorldCenter(), true);
             getGame().getManager().get("bowl.wav", Sound.class).play();
             Timer.schedule(new Timer.Task() {
@@ -29,6 +29,8 @@ public class WatchingScreen extends PlayScreen implements Screen {
                 }
             }, 5);
         }
+        if (getGame().getNextScreen().equals("PlayScreen"))
+            getGame().createScreen();
     }
 
     public void update(float dt) {
