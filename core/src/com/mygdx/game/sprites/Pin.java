@@ -21,6 +21,8 @@ public class Pin extends Sprite{
     private Body b2Body;
     private Fixture fixture;
 
+    private boolean pinHit;
+
 
     public Pin(PlayScreen screen,int width, int height ) {
 
@@ -65,6 +67,13 @@ public class Pin extends Sprite{
         fixture.setUserData(this);
     }
 
+    public boolean isPinHit() {
+        return pinHit;
+    }
+
+    public void setPinHit(boolean pinHit) {
+        this.pinHit = pinHit;
+    }
 
     public Pin.State getCurrentState() {
         return currentState;
