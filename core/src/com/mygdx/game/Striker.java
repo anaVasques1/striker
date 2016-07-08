@@ -3,6 +3,8 @@ package com.mygdx.game;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.assets.AssetManager;
+import com.badlogic.gdx.audio.Music;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.mygdx.game.Client.Reader;
 import com.mygdx.game.Client.Writer;
@@ -35,6 +37,8 @@ public class Striker extends Game {
 	public void create () {
 		batch = new SpriteBatch();
 		manager = new AssetManager();
+        manager.load("bowl.wav", Sound.class);
+        manager.load("strike.ogg", Sound.class);
         manager.finishLoading();
 		nextScreen = "WatchingScreen";
 		setScreen(new WatchingScreen(this));

@@ -3,6 +3,7 @@ package com.mygdx.game.screens;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.audio.Music;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.maps.tiled.TiledMap;
@@ -146,6 +147,7 @@ public class PlayScreen implements Screen {
                 str = strHud.getStrPointer().getyOffset();
                 strHud.dispose();
                 ball.getB2Body().applyForce(new Vector2(dir * 5, str * 5), ball.getB2Body().getWorldCenter(), true);
+                game.getManager().get("bowl.wav", Sound.class).play();
                 ball.setCurrentState(Ball.State.LAUNCHED);
                 Timer.schedule(new Timer.Task() {
                     @Override
