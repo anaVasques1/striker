@@ -58,9 +58,9 @@ public class Pin extends Sprite{
 
         fdef.shape = shape;
         //TODO verificar essas variaveis
-        fdef.restitution = 1f;
-        fdef.friction = 0.5f;
-        fdef.density = 5f;
+        fdef.restitution = 0f;
+        fdef.friction = 5.5f;
+        fdef.density = 7f;
         fixture = b2Body.createFixture(fdef);
         fixture.setUserData(this);
     }

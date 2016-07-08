@@ -135,7 +135,7 @@ public class PlayScreen implements Screen {
             if (Gdx.input.justTouched()) {
                 ball.setCurrentState(Ball.State.DIRECTING);
                 dirHud = new DirHud(game.getBatch(), this);
-                ball.getB2Body().applyForce(new Vector2(200f, 400f), ball.getB2Body().getWorldCenter(), true);
+                ball.getB2Body().applyForce(new Vector2(50f, 400f), ball.getB2Body().getWorldCenter(), true);
             }
         }
         /*//control our player using immediate impulses
