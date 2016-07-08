@@ -15,6 +15,8 @@ public class Server {
         private final int MAX_PLAYERS = 2;
         private HashMap<Integer, ServerThread> playersList;
         private ServerSocket serverSocket = null;
+    private Score score;
+
     private Integer currentKey = 1;
 
         public Server() {
@@ -50,11 +52,13 @@ public class Server {
     }
 
     public void start() {
+        score = new Score(MAX_PLAYERS);
         //TODO send start message to players
         while (true) {
             ServerThread player = playersList.get(currentKey);
             player.getMovement();
         }
+        //score.checkWinner();
     }
 
     public void updateCurrentKey(){
@@ -75,6 +79,10 @@ public class Server {
         }
         updateCurrentKey();
 
+    }
+
+    public void updateScore(int score){
+        this.score.update(currentKey,score);
     }
 
 }

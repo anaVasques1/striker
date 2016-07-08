@@ -36,9 +36,9 @@ public class ServerThread{
                 line = in.readLine();
                 if(line != null) {
                     //System.out.println(line);
-                    server.sendAll(line);
-                    //processLine(line);
-                    //processar line
+
+                    server.sendAll(processLine(line));
+
                 }
 
         } catch (IOException e) {
@@ -66,11 +66,13 @@ public class ServerThread{
     }
 
 
-    private void processLine(String line) {
+    private String processLine(String line) {
+
+        String[] message = line.split(":");
 
         //TODO  separar score e guardar no score
-
-        //TODO mandar aos restantes clientes
+        server.updateScore(Integer.parseInt(message[1]));
+        return message[0];
     }
 
     public void sendMessage(String message) {
