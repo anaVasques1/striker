@@ -14,7 +14,7 @@ public class Ball extends Sprite {
     public enum State { STOPPED, CHARGING, DIRECTING, LAUNCHED };
     private State currentState;
 
-    private static final int BALL_RADIUS = 30;
+    private static final int BALL_RADIUS = 20;
     private static final int BALL_STARTING_HEIGHT = 100;
     private World world;
     private Body b2Body;
@@ -50,11 +50,11 @@ public class Ball extends Sprite {
         CircleShape shape = new CircleShape();
         shape.setRadius(BALL_RADIUS / Striker.PPM);
         fdef.filter.categoryBits = Striker.BALL_BIT;
-        fdef.filter.maskBits = Striker.EDGE_BIT;
+        fdef.filter.maskBits = Striker.EDGE_BIT | Striker.PIN_BIT;
 
         fdef.shape = shape;
-        fdef.restitution = 0.8f;
-        fdef.friction = 0.5f;
+        fdef.restitution = 0f;
+        fdef.friction = 0f;
         fdef.density = 10f;
         fixture = b2Body.createFixture(fdef);
         fixture.setUserData(this);

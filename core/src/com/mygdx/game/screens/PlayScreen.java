@@ -20,7 +20,9 @@ import com.mygdx.game.scenes.DirHud;
 import com.mygdx.game.scenes.Hud;
 import com.mygdx.game.scenes.StrHud;
 import com.mygdx.game.sprites.Ball;
+import com.mygdx.game.sprites.Pin;
 import com.mygdx.game.tools.B2WorldCreator;
+import com.sun.org.apache.xpath.internal.operations.String;
 
 /**
  * Created by User on 07/07/2016.
@@ -49,6 +51,7 @@ public class PlayScreen implements Screen {
 
     //assets
     private Ball ball;
+    private Pin[] pins = new Pin[10];
     private Music music;
     //private Array<Item> items;
     //private LinkedBlockingQueue<ItemDef> itemsToSpawn;
@@ -89,6 +92,22 @@ public class PlayScreen implements Screen {
 
         //create ball in our game world
         ball = new Ball(this);
+
+        //Create pin
+        int p = 0;
+        int i = 4;
+        int stop = 11;
+        for(int j = 0; j<4; j++ ) {
+            for (int k = i ; k < stop; k += 2) {
+                pins[p] = new Pin(this, 16 + (k * Striker.TILE_SIZE), 768 - (int)(1.5 * j * Striker.TILE_SIZE));
+                p++;
+            }
+            System.out.println(j);
+            i++;
+            stop--;
+        }
+
+
 
         //world.setContactListener(new WorldContactListener());
 
@@ -139,8 +158,6 @@ public class PlayScreen implements Screen {
                 ball.setCurrentState(Ball.State.DIRECTING);
             }
         }
-
-
         /*//control our player using immediate impulses
         if(player.currentState != Mario.State.DEAD) {
             if (Gdx.input.isKeyJustPressed(Input.Keys.UP))
@@ -161,6 +178,9 @@ public class PlayScreen implements Screen {
         ball.update(dt);
         if (dirHud != null) dirHud.update(dt);
         if (strHud != null) strHud.update(dt);
+        for(int i = 0; i < 10; i++){
+            pins[i].update(dt);
+        }
         /*//handle user input first
         handleInput(dt);
         handleSpawningItems();
@@ -217,6 +237,10 @@ public class PlayScreen implements Screen {
         if (dirHud != null && !dirHud.isDisposed()) dirHud.render(delta);
         if (strHud != null && !strHud.isDisposed()) strHud.render(delta);
         ball.draw(game.getBatch());
+        for(int i = 0; i < 10; i++){
+            pins[i].draw(game.getBatch());
+        }
+
         /*for (Enemy enemy : creator.getEnemies())
             enemy.draw(game.batch);
         for (Item item : items)

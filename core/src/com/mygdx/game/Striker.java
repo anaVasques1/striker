@@ -9,10 +9,12 @@ public class Striker extends Game {
 
 	public static final int GAME_WIDTH = 480;
     public static final int GAME_HEIGHT = 800;
+	public static final int TILE_SIZE = 32;
     public static final float PPM = 100;
 
     public static final short EDGE_BIT = 1;
     public static final short BALL_BIT = 2;
+	public static final short PIN_BIT = 3;
 
     private SpriteBatch batch;
 	private AssetManager manager;
