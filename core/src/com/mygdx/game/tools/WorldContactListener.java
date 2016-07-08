@@ -1,6 +1,7 @@
 package com.mygdx.game.tools;
 
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.physics.box2d.*;
 import com.mygdx.game.Striker;
 import com.mygdx.game.screens.PlayScreen;
@@ -11,6 +12,7 @@ import com.mygdx.game.sprites.Pin;
  */
 public class WorldContactListener implements ContactListener {
     private PlayScreen screen;
+    private boolean hit;
 
     public WorldContactListener(PlayScreen screen) {
         this.screen = screen;
@@ -33,6 +35,7 @@ public class WorldContactListener implements ContactListener {
                 if (fixA.getFilterData().categoryBits == Striker.BALL_BIT) {
                     ((Pin) fixB.getUserData()).setPinHit(true);
                 }
+                if (!hit) screen.getGame().getManager().get("strike.ogg", Sound.class).play();
         }
     }
 
