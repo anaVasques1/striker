@@ -6,12 +6,12 @@ import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.maps.tiled.TiledMap;
-import com.badlogic.gdx.maps.tiled.TiledMapTile;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
+import com.badlogic.gdx.utils.Timer;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
@@ -22,7 +22,7 @@ import com.mygdx.game.scenes.StrHud;
 import com.mygdx.game.sprites.Ball;
 import com.mygdx.game.sprites.Pin;
 import com.mygdx.game.tools.B2WorldCreator;
-import com.sun.org.apache.xpath.internal.operations.String;
+import com.mygdx.game.tools.WorldContactListener;
 
 /**
  * Created by User on 07/07/2016.
@@ -53,6 +53,7 @@ public class PlayScreen implements Screen {
     private Ball ball;
     private Pin[] pins = new Pin[10];
     private Music music;
+    private int score;
     //private Array<Item> items;
     //private LinkedBlockingQueue<ItemDef> itemsToSpawn;
 
@@ -107,9 +108,7 @@ public class PlayScreen implements Screen {
             stop--;
         }
 
-
-
-        //world.setContactListener(new WorldContactListener());
+        world.setContactListener(new WorldContactListener(this));
 
         /*music = game.getManager().get("audio/music/mario_music.ogg", Music.class);
         music.setLooping(true);
@@ -133,10 +132,12 @@ public class PlayScreen implements Screen {
         }
     }*/
 
+
     @Override
     public void show() {}
 
-    public void handleInput(float dt){
+
+    public void handleInput(float dt) {
 
         if (Gdx.input.justTouched()) {
             if (ball.getCurrentState() == Ball.State.CHARGING) {
@@ -144,6 +145,20 @@ public class PlayScreen implements Screen {
                 strHud.dispose();
                 ball.getB2Body().applyForce(new Vector2(dir * 5, str * 5), ball.getB2Body().getWorldCenter(), true);
                 ball.setCurrentState(Ball.State.LAUNCHED);
+                Timer.schedule(new Timer.Task() {
+                    @Override
+                    public void run() {
+                        int score = 0;
+                        for (Pin pin: pins) {
+                            if (pin.isPinHit()) {
+                                score++;
+                            }
+                        }
+                        System.out.println(score);
+                        dispose();
+                        game.setScreen(new WatchingScreen(game));
+                    }
+                }, 5);
             }
 
             if (ball.getCurrentState() == Ball.State.DIRECTING) {
@@ -255,6 +270,11 @@ public class PlayScreen implements Screen {
             //game.setScreen(new GameOverScreen(game));
             dispose();
         }
+    }
+
+    public void addScore() {
+        score++;
+        System.out.println(score);
     }
 
     public boolean gameOver(){

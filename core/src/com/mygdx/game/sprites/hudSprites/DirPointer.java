@@ -34,11 +34,11 @@ public class DirPointer extends Sprite implements Disposable {
     public void variableDirection() {
 
         if(risingDir){
-            xOffset += 12;
+            xOffset += 6;
             if(xOffset == MAX_DIRECTION) risingDir = false;
 
         } else {
-            xOffset -= 12;
+            xOffset -= 6;
             if(xOffset == MIN_DIRECTION) risingDir = true;
         }
     }
