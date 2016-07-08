@@ -2,7 +2,11 @@ package com.mygdx.game.screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.audio.Sound;
+import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.utils.Timer;
 import com.mygdx.game.Striker;
+import com.mygdx.game.sprites.Pin;
 
 /**
  * Created by User on 08/07/2016.
@@ -13,23 +17,32 @@ public class WatchingScreen extends PlayScreen implements Screen {
         super(game);
     }
 
-    public void handleInput(float dt) {}
+    public void handleInput(float dt) {
+        if (getGame().getNextScreen().equals("ShowPlay")) {
+            getGame().setNextScreen("WatchingScreen");
+            getBall().getB2Body().applyForce(new Vector2(getGame().getDir() * 5, getGame().getStr() * 5), getBall().getB2Body().getWorldCenter(), true);
+            getGame().getManager().get("bowl.wav", Sound.class).play();
+            Timer.schedule(new Timer.Task() {
+                @Override
+                public void run() {
+                    getGame().createScreen();
+                }
+            }, 5);
+        }
+    }
 
     public void update(float dt) {
         handleInput(dt);
-        super.getWorld().step(1 / 60f, 6, 2);
-        super.getBall().update(dt);
+        getWorld().step(1 / 60f, 6, 2);
+        getBall().update(dt);
         for(int i = 0; i < 10; i++){
-            super.getPins()[i].update(dt);
+            getPins()[i].update(dt);
         }
 
         //update our gameCam with correct coordinates after changes
-        super.getGameCam().update();
+        getGameCam().update();
         //tell our renderer to draw only what our camera can see in our game world.
-        super.getRenderer().setView(getGameCam());
-        if (!super.getGame().getNextScreen().equals("WatchingScreen")) {
-            super.getGame().createScreen();
-        }
+        getRenderer().setView(getGameCam());
 
     }
 }

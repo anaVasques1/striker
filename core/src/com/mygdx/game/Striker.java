@@ -29,6 +29,10 @@ public class Striker extends Game {
 	private Writer writer;
 	private String nextScreen;
 
+	private int score;
+	private float dir;
+	private float str;
+
 	public void setWriter(Writer writer) {
 		this.writer = writer;
 	}
@@ -101,8 +105,21 @@ public class Striker extends Game {
 		return nextScreen;
 	}
 
-	public void move(float dir, float str){
+	public void move(int score, float dir, float str){
+		this.dir = dir;
+		this.str = str;
+		this.score = score;
+	}
 
+	public int getScore() {
+		return score;
+	}
 
+	public float getDir() {
+		return dir;
+	}
+
+	public float getStr() {
+		return str;
 	}
 }

@@ -86,7 +86,8 @@ public class Reader implements Runnable{
         String dir = message[1];
         String str = message[2];
 
-        game.move(Float.parseFloat(dir),Float.parseFloat(str));
+        game.setNextScreen("ShowPlay");
+        game.move(Integer.parseInt(message[0]),Float.parseFloat(dir),Float.parseFloat(str));
     }
 
     @Override
