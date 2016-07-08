@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" orientation="orthogonal" renderorder="right-down" width="15" height="25" tilewidth="32" tileheight="32" nextobjectid="8">
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="15" height="25" tilewidth="32" tileheight="32" nextobjectid="17">
  <tileset firstgid="1" name="tileset" tilewidth="32" tileheight="32" tilecount="16" columns="8">
   <image source="tileset.png" width="256" height="64"/>
  </tileset>
@@ -33,8 +33,8 @@
 </data>
  </layer>
  <objectgroup name="Limits">
-  <object id="2" x="32" y="32" width="32" height="736"/>
-  <object id="3" x="416" y="32" width="32" height="736"/>
+  <object id="2" x="0" y="64" width="64" height="736"/>
+  <object id="3" x="416" y="64" width="64" height="736"/>
   <object id="4" x="64" y="768" width="352" height="32"/>
  </objectgroup>
 </map>

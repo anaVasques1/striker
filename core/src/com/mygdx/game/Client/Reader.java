@@ -62,7 +62,8 @@ public class Reader implements Runnable{
                 String line = in.readLine();
                 System.out.println("received msg from server " + line);
                 if(line != null) {
-                    if(endGame(line)) {
+                    if(line.equals("end")) {
+                        game.gameOver();
                         break;
                     }
                     processLine(line);
@@ -87,13 +88,14 @@ public class Reader implements Runnable{
 
     private boolean endGame(String line) {
         String[] message = processLine(line);
+        System.out.println(message.length);
         return message[0].equals("") &&
                 message[1].equals("") &&
                 message[2].equals("");
     }
 
     private String[] processLine(String line) {
-
+        System.out.println("line being processed"+line);
         String[] message = line.split(":");
         String dir = message[1];
         String str = message[2];

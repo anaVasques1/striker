@@ -15,7 +15,7 @@ public class Server {
         private final int MAX_PLAYERS = 2;
         private HashMap<Integer, ServerThread> playersList;
         private ServerSocket serverSocket = null;
-        private final int TURNS = 10;
+        private final int TURNS = 2;
     private Score score;
 
     private Integer currentKey = 1;
@@ -40,8 +40,7 @@ public class Server {
             try {
                 clientSocket = serverSocket.accept();
                 ServerThread playerThread = new ServerThread(clientSocket, this);
-               // Thread t = new Thread(playerThread);
-               // pool.submit(t);
+
                 playersList.put(playersList.size() + 1, playerThread);
 
             } catch (IOException e) {
@@ -57,12 +56,14 @@ public class Server {
         score = new Score(MAX_PLAYERS);
         //TODO send start message to players
         int moves = 0;
-        while (moves <= TURNS * MAX_PLAYERS) {
+        while (moves < TURNS * MAX_PLAYERS) {
+            System.out.println("jodadas "+moves);
             ServerThread player = playersList.get(currentKey);
             player.getMovement();
             moves++;
         }
-        sendAll("::");
+        playersList.get(1).sendMessage("end");
+        playersList.get(2).sendMessage("end");
         int winner = score.checkWinner();
         if(winner == 1) {
             playersList.get(1).sendMessage("winner");

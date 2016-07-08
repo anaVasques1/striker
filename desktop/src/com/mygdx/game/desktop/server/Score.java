@@ -9,6 +9,7 @@ public class Score {
     private HashMap<Integer, Integer> scores = new HashMap<Integer, Integer>();
     public Score(int maxPlayers){
         for(int i = 1; i <= maxPlayers; i++) {
+
            scores.put(i,0);
         }
     }

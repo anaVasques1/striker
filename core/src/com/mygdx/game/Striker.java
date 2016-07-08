@@ -1,7 +1,6 @@
 package com.mygdx.game;
 
 import com.badlogic.gdx.Game;
-import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
@@ -10,7 +9,6 @@ import com.mygdx.game.Client.Reader;
 import com.mygdx.game.Client.Writer;
 import com.mygdx.game.screens.PlayScreen;
 import com.mygdx.game.screens.WatchingScreen;
-import com.sun.webkit.ThemeClient;
 
 public class Striker extends Game {
 
@@ -28,6 +26,15 @@ public class Striker extends Game {
 	private Reader reader;
 	private Writer writer;
 	private String nextScreen;
+	private boolean gameOver;
+
+	public boolean isGameOver() {
+		return gameOver;
+	}
+
+	public void gameOver() {
+		this.gameOver = true;
+	}
 
 	private int score;
 	private float dir;

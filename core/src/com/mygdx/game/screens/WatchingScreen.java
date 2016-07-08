@@ -25,7 +25,9 @@ public class WatchingScreen extends PlayScreen implements Screen {
             Timer.schedule(new Timer.Task() {
                 @Override
                 public void run() {
-                    getGame().createScreen();
+                    if(!getGame().isGameOver()) {
+                        getGame().createScreen();
+                    }
                 }
             }, 5);
         }
