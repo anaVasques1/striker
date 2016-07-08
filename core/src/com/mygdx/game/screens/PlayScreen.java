@@ -83,6 +83,10 @@ public class PlayScreen implements Screen {
         //Load our map and setup our map renderer
         maploader = new TmxMapLoader();
         map = maploader.load("game.tmx");
+        music = game.getManager().get("chillsong.ogg", Music.class);
+        music.setLooping(true);
+        music.setVolume(0.3f);
+        music.play();
         renderer = new OrthogonalTiledMapRenderer(map, 1  / Striker.PPM);
 
         gameCam.position.set(gamePort.getWorldWidth() / 2, gamePort.getWorldHeight() / 2, 0);
@@ -159,6 +163,7 @@ public class PlayScreen implements Screen {
                             }
                         }
                         System.out.println(score);
+                        result(dir, str, score);
                         dispose();
                         game.createWatchingScreen();
                     }
@@ -190,8 +195,8 @@ public class PlayScreen implements Screen {
         }*/
     }
 
-    public void result(float dir, float str){
-        String result = Float.toString(dir) + ":" + Float.toString(str);
+    public void result(float dir, float str, int score){
+        String result = score + ":" + Float.toString(dir) + ":" + Float.toString(str);
         game.sendResult(result);
 
     }

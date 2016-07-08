@@ -39,6 +39,7 @@ public class Striker extends Game {
 		manager = new AssetManager();
         manager.load("bowl.wav", Sound.class);
         manager.load("strike.ogg", Sound.class);
+		manager.load("chillsong.ogg", Music.class);
         manager.finishLoading();
 		nextScreen = "WatchingScreen";
 		setScreen(new WatchingScreen(this));
@@ -61,11 +62,13 @@ public class Striker extends Game {
 	}
 
 	public void createScreen() {
+		nextScreen = "PlayScreen";
 		setScreen(new PlayScreen(this));
 		System.out.println("so this happened");
 	}
 
 	public void createWatchingScreen(){
+		nextScreen = "WatchingScreen";
 		setScreen(new WatchingScreen(this));
 		System.out.println("so this happened");
 	}
