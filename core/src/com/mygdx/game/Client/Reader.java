@@ -27,32 +27,11 @@ public class Reader implements Runnable{
             socket = new Socket(SERVER_ADDRESS,PORT);
             Writer writer = new Writer(socket);
             game.setWriter(writer);
-//            Thread t = new Thread(writer);
-//            t.start();
             in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
-//
-//    public void init(){
-//        try {
-//            System.out.println("esperando msg");
-//            String line = in.readLine();
-//            System.out.println("recebeu msg");
-//            System.out.println(line);
-//           if(line.equals("wait")) {
-//               game.createWatchingScreen();
-//           }else{
-//               System.out.println("entrou no load screen");
-//               game.createScreen();
-//            }
-//
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
-//        start();
-//    }
 
     private void start() {
         try {

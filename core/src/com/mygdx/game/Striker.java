@@ -57,7 +57,6 @@ public class Striker extends Game {
 		reader = new Reader(this);
 		Thread t = new Thread(reader);
 		t.start();
-		//reader.init();
 	}
 
 	@Override

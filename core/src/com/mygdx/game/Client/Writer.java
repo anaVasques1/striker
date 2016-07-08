@@ -24,18 +24,6 @@ public class Writer{
     }
 
 
-
-//    public void run() {
-//        try {
-//            out = new PrintWriter(socket.getOutputStream(), true);
-//
-//
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
-//    }
-
-
     public void sendMessage(String result) {
         out.write(result+"\n");
         out.flush();
